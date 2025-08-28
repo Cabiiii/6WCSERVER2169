@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>MIDTERM LAB - API Endpoints Activity</title>
+</head>
+<body>
+  <h2>Cabe - MIDTERM LAB - API Endpoints Activity</h2>
+
+  <!-- GET all users -->
+  <p><a href="http://localhost:3000/api/users" target="_blank">View All Users</a></p>
+
+  <!-- POST new user -->
+  <h3>Add User</h3>
+  <form id="postForm">
+    <input type="text" id="name" placeholder="Name" required><br>
+    <input type="email" id="email" placeholder="Email" required><br>
+    <input type="number" id="age" placeholder="Age" required><br>
+    <input type="number" id="salary" placeholder="Salary" required><br>
+    <button type="submit">Add User</button>
+  </form>
+
+  <!-- DELETE user -->
+  <h3>Delete User</h3>
+  <form id="deleteForm">
+    <input type="number" id="deleteId" placeholder="User ID" required><br>
+    <button type="submit">Delete User</button>
+  </form>
+
+  <script>
+    // Handle POST form
+    document.getElementById("postForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const data = {
+        name: document.getElementById("name").value,
+        email: document.getElementById("email").value,
+        age: parseInt(document.getElementById("age").value),
+        salary: parseInt(document.getElementById("salary").value)
+      };
+      const res = await fetch("http://localhost:3000/api/users", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data)
+      });
+      const result = await res.json();
+      alert("User added: " + JSON.stringify(result));
+    });
+
+    // Handle DELETE form
+    document.getElementById("deleteForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const id = document.getElementById("deleteId").value;
+      const res = await fetch("http://localhost:3000/api/delete/" + id, {
+        method: "DELETE"
+      });
+      const text = await res.text();
+      alert(text);
+    });
+  </script>
+</body>
+</html>
